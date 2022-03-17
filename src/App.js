@@ -9,8 +9,8 @@ import reducer from "./Components/Reducer";
 import { RANDOM_Breed_ACTION } from "./Constants";
 
 function App() {
-  let initalState = "https://images.dog.ceo/breeds/pyrenees/n02111500_533.jpg";
   const [getData, setGetData] = useState([]);
+  let initalState = "";
   const [breedList, setBreedList] = useState([initalState]);
 
   const [breedPageState, dispatchForBreed] = useReducer(reducer, null);
@@ -70,7 +70,7 @@ function App() {
         add_list: [],
       },
     });
-    setBreedList([initalState]);
+    setBreedList([""]);
   };
   useEffect(() => {
     if (!breedList) {

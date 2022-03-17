@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable jsx-a11y/alt-text */
 import React from "react";
 
@@ -11,6 +12,7 @@ function RightSide({ breedPageState }) {
               key={index}
               width="250px"
               height="200px"
+              alt="this image isn't available"
               style={{ margin: "10px" }}
             />
           );
