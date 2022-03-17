@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer, useCallback } from "react";
 import "./App.css";
 
 import axios from "axios";
@@ -10,8 +10,8 @@ import { RANDOM_Breed_ACTION } from "./Constants";
 
 function App() {
   const [getData, setGetData] = useState([]);
-  let initalState = "";
-  const [breedList, setBreedList] = useState([initalState]);
+
+  const [breedList, setBreedList] = useState([]);
 
   const [breedPageState, dispatchForBreed] = useReducer(reducer, null);
 
@@ -50,18 +50,21 @@ function App() {
     });
   }, []);
 
-  const addToFavorite = (name) => {
-    setBreedList([...breedList, name]);
+  const addToFavorite = useCallback(
+    (name) => {
+      let list_breed = [...breedList, name];
 
-    dispatchForBreed({
-      action: RANDOM_Breed_ACTION.UPDATE,
-      payload: {
-        add_list: breedList,
-      },
-    });
-
-    getAgainData();
-  };
+      dispatchForBreed({
+        action: RANDOM_Breed_ACTION.UPDATE,
+        payload: {
+          add_list: list_breed,
+        },
+      });
+      setBreedList([...breedList, name]);
+      getAgainData();
+    },
+    [breedList, dispatchForBreed]
+  );
 
   const resetParentStateValue = () => {
     dispatchForBreed({
@@ -70,13 +73,13 @@ function App() {
         add_list: [],
       },
     });
-    setBreedList([""]);
+    setBreedList([]);
   };
   useEffect(() => {
-    if (!breedList) {
+    if (breedList.length) {
       setBreedList(RANDOM_Breed_ACTION.add_list);
     }
-  }, [breedList]);
+  }, []);
 
   return (
     <div>
